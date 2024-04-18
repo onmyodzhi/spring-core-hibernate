@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class PrepareData {
-    public static void forcePrepareData(){
+    public static void forcePrepareData() {
         SessionFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .buildSessionFactory();

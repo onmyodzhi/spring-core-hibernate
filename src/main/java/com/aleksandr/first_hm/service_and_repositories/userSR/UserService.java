@@ -15,23 +15,23 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void create(User user){
+    public void create(User user) {
         userRepository.addUser(user);
     }
 
-    public void read(Long id){
-        userRepository.readUserById(id);
+    public User read(Long id) {
+        return userRepository.readUserById(id);
     }
 
-    public List<User> readAll(){
+    public List<User> readAll() {
         return userRepository.readAllUsers();
     }
 
-    public void update(Long id, String name, int age){
-        userRepository.updateUserById(id,name,age);
+    public void update(Long id, String name, int age) {
+        userRepository.updateUserById(id, name, age);
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         userRepository.deleteUserById(id);
     }
 }

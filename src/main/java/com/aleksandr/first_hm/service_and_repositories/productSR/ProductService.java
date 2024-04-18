@@ -15,23 +15,23 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public void create(Product product){
+    public void create(Product product) {
         productRepository.addProduct(product);
     }
 
-    public void read(Long id){
-        productRepository.readProductById(id);
+    public Product read(Long id) {
+        return productRepository.readProductById(id);
     }
 
-    public List<Product> readAll(){
+    public List<Product> readAll() {
         return productRepository.readAllProducts();
     }
 
-    public void update(Long id, String title, int price){
-        productRepository.updateProductById(id,title,price);
+    public void update(Long id, String title, int price) {
+        productRepository.updateProductById(id, title, price);
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         productRepository.deleteProductById(id);
     }
 }

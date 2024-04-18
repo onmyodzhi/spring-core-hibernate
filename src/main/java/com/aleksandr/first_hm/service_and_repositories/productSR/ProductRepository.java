@@ -16,9 +16,7 @@ public class ProductRepository {
     private SessionFactory sessionFactory;
     private Session session;
 
-    public void addProduct(Product product){
-        String title = product.getTitle();
-        int price = product.getPrice();
+    void addProduct(Product product) {
         try {
             if (sessionFactory == null) sessionFactory = DBConnection.getSessionFactory();
 
@@ -28,12 +26,12 @@ public class ProductRepository {
             session.persist(product);
 
             session.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             if (session != null && session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
             System.out.println(e.getMessage());
-        }finally {
+        } finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
@@ -41,32 +39,34 @@ public class ProductRepository {
 
     }
 
-    public void readProductById(Long id){
-        try{
+    Product readProductById(Long id) {
+        Product product = null;
+        try {
             if (sessionFactory == null) sessionFactory = DBConnection.getSessionFactory();
 
             session = sessionFactory.getCurrentSession();
             session.beginTransaction();
 
-            Product product = session.get(Product.class, id);
-
-            System.out.println(product);
+            product = session.get(Product.class, id);
 
             session.getTransaction().commit();
-        }catch (Exception e){
+
+        } catch (Exception e) {
             if (session != null && session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
             System.out.println(e.getMessage());
-        }finally {
+        } finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
         }
+
+        return product;
     }
 
-    public void updateProductById(Long id, String title, Integer price){
-        try{
+    void updateProductById(Long id, String title, Integer price) {
+        try {
             if (sessionFactory == null) sessionFactory = DBConnection.getSessionFactory();
 
             session = sessionFactory.getCurrentSession();
@@ -80,20 +80,20 @@ public class ProductRepository {
             session.merge(product);
 
             session.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             if (session != null && session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
             System.out.println(e.getMessage());
-        }finally {
+        } finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
         }
     }
 
-    public void deleteProductById(Long id){
-        try{
+    void deleteProductById(Long id) {
+        try {
             if (sessionFactory == null) sessionFactory = DBConnection.getSessionFactory();
 
             session = sessionFactory.getCurrentSession();
@@ -104,12 +104,12 @@ public class ProductRepository {
             session.remove(product);
 
             session.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             if (session != null && session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
             System.out.println(e.getMessage());
-        }finally {
+        } finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
@@ -117,17 +117,7 @@ public class ProductRepository {
     }
 
 
-    @PreDestroy
-    public void preDestroy(){
-        if (sessionFactory != null){
-            sessionFactory.close();
-        }
-        if (session != null && session.getTransaction() != null) {
-            session.getTransaction().rollback();
-        }
-    }
-
-    public List<Product> readAllProducts() {
+    List<Product> readAllProducts() {
         List<Product> products = new ArrayList<>();
         try {
             if (sessionFactory == null) sessionFactory = DBConnection.getSessionFactory();
@@ -152,5 +142,15 @@ public class ProductRepository {
         }
 
         return products;
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        if (sessionFactory != null) {
+            sessionFactory.close();
+        }
+        if (session != null && session.getTransaction() != null) {
+            session.getTransaction().rollback();
+        }
     }
 }

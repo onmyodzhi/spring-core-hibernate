@@ -13,8 +13,8 @@ public class DBConnection {
             try {
                 Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
                 sessionFactory = configuration.buildSessionFactory(
-                                new StandardServiceRegistryBuilder().configure().build());
-            }catch (RuntimeException exception){
+                        new StandardServiceRegistryBuilder().configure().build());
+            } catch (RuntimeException exception) {
                 exception.printStackTrace();
                 throw new RuntimeException();
             }
@@ -22,8 +22,8 @@ public class DBConnection {
         return sessionFactory;
     }
 
-    public static synchronized void shotDown(){
-        if (sessionFactory != null){
+    public static synchronized void shotDown() {
+        if (sessionFactory != null) {
             sessionFactory.close();
             sessionFactory = null;
         }

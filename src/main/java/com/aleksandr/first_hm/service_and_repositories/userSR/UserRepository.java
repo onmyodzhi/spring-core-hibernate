@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
+import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,16 +41,15 @@ public class UserRepository {
 
     }
 
-    void readUserById(Long id) {
+    User readUserById(Long id) {
+        User user = null;
         try {
             if (sessionFactory == null) sessionFactory = DBConnection.getSessionFactory();
 
             session = sessionFactory.getCurrentSession();
             session.beginTransaction();
 
-            User user = session.get(User.class, id);
-
-            System.out.println(user);
+            user = session.get(User.class, id);
 
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -62,6 +62,7 @@ public class UserRepository {
                 session.close();
             }
         }
+        return user;
     }
 
     void updateUserById(Long id, String name, int age) {
@@ -115,17 +116,6 @@ public class UserRepository {
         }
     }
 
-
-    @PreDestroy
-    public void preDestroy() {
-        if (sessionFactory != null) {
-            sessionFactory.close();
-        }
-        if (session != null && session.getTransaction() != null) {
-            session.getTransaction().rollback();
-        }
-    }
-
     public List<User> readAllUsers() {
         List<User> users = new ArrayList<>();
         try {
@@ -151,5 +141,15 @@ public class UserRepository {
         }
 
         return users;
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        if (sessionFactory != null) {
+            sessionFactory.close();
+        }
+        if (session != null && session.getTransaction() != null) {
+            session.getTransaction().rollback();
+        }
     }
 }
