@@ -4,7 +4,7 @@ package com.aleksandr.first_hm.data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "Users")
 public class User {
     @Id
     @Column(name = "id")

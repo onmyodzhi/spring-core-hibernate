@@ -13,8 +13,7 @@ public class DBConnection {
             try {
                 Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
                 sessionFactory = configuration.buildSessionFactory(
-                                new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build()
-                        );
+                                new StandardServiceRegistryBuilder().configure().build());
             }catch (RuntimeException exception){
                 exception.printStackTrace();
                 throw new RuntimeException();
